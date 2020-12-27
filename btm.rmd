@@ -6,7 +6,11 @@ output:
   html_document: default
   word_document: default
 ---
-Bradley Terry models in R are nothing new - in fact there are some very good packages already in existence (like **BradleyTerry2**) that can be used to run these models with a minimal amount of elbow grease. That being said, sometimes it's fun (and instructive) to take a shot at building a simple model from the ground up. Let's give it a shot together using simple game score data from the NHL. We'll use our model to estimate team strength and then forecast a hypothetical matchup. Let's dive in.
+Bradley Terry models in R are nothing new - in fact there are some very good packages already in existence 
+(like **BradleyTerry2**) that can be used to run these models with a minimal amount of elbow grease. 
+That being said, sometimes it's fun (and instructive) to take a shot at building a simple model from the ground up. 
+Let's give it a shot together using simple game score data from the NHL. We'll use our model to estimate team strength 
+and then forecast a hypothetical matchup. Let's dive in.
 
 ### 1. Load The Raw Data
 First let's load some game result data from the 2018-2019 NHL season as a .csv file:
