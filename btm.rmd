@@ -21,7 +21,10 @@ kable(head(data), caption = "2018-2019 NHL Game Result Data")
 ```
 
 ### 2. Clean & Wrangle The Data
-Now let's make some new variables and clean the variable names up a bit. First we'll create a margin of victory **[h_mov]** variable from the home team's perspective, and then create a binary result variable **[h_win]** where the home team records a win [1] or a loss [0] based on the positive or negative value of the margin of victory. Then we'll rename the variables using lowercase letters and select the data that we want for our new cleaned up dataframe.
+Now let's make some new variables and clean the variable names up a bit. First we'll create a margin of victory **[h_mov]** 
+variable from the home team's perspective, and then create a binary result variable **[h_win]** where the home team records a 
+win [1] or a loss [0] based on the positive or negative value of the margin of victory. Then we'll rename the variables using 
+lowercase letters and select the data that we want for our new cleaned up dataframe.
 
 ```{r warning=FALSE, message=FALSE}
 library(tidyverse)
@@ -40,7 +43,9 @@ kable(head(bt.games))
 
 ### 3. Create A Model Formula Function
 
-Next we need to create a model formula. For a Bradley Terry model we'll want to use a logistic function that combines the home rating, away rating, and home ice advantage. There are other ways to build this, but this method closely follows the Excel version of this model from my book Statistical Sports Models in Excel Volume 1, so I think it will be approachable for those trying to make the leap from Excel to R.
+Next we need to create a model formula. For a Bradley Terry model we'll want to use a logistic function that combines the home rating, 
+away rating, and home ice advantage. There are other ways to build this, but this method closely follows the Excel version of this model 
+from my book Statistical Sports Models in Excel Volume 1, so I think it will be approachable for those trying to make the leap from Excel to R.
 ```{r warning=FALSE, message=FALSE}
 bt.home_forecast <- function(home_rating,
                           visitor_rating,
@@ -51,7 +56,8 @@ bt.home_forecast <- function(home_rating,
 
 
 ### 4. Assign Dummy Team Ratings
-Next we create a vector of dummy team ratings and start all teams off with a rating of 1.000. We'll later optimize the ratings using maximum likelihood estimation, but this gives us a starting point to work from.
+Next we create a vector of dummy team ratings and start all teams off with a rating of 1.000. We'll later optimize the ratings using maximum 
+likelihood estimation, but this gives us a starting point to work from.
 
 ```{r warning=FALSE, message=FALSE}
 teams <- as.vector(sort(unique(bt.games$home)))
@@ -60,7 +66,10 @@ names(bt.ratings) <- c(teams, 'hia') #'hia' is our home ice advantage
 ```
 
 ### 5. Create a Likelihood Function
-Now we need to create a log likelihood function which we can use to optimize the team ratings in a way that makes the observed game results most probable. This function compares the estimated win probability to the binary result variable **[h_win]** and returns the estimated probability if [h_win] is 1, and 1 minus the estimated probability if [h_win] is 0. The function then takes the natural logarithm of the resulting probabilities and sums them together to return a log likelihood as **[ll.final]**.
+Now we need to create a log likelihood function which we can use to optimize the team ratings in a way that makes the observed game results 
+most probable. This function compares the estimated win probability to the binary result variable **[h_win]** and returns the estimated 
+probability if [h_win] is 1, and 1 minus the estimated probability if [h_win] is 0. The function then takes the natural logarithm of the 
+resulting probabilities and sums them together to return a log likelihood as **[ll.final]**.
 
 ```{r warning=FALSE, message=FALSE}
 ll <- function(bt.ratings) {
@@ -75,7 +84,9 @@ ll <- function(bt.ratings) {
 ```
 
 ### 6. Optimize Team Ratings With Maximum Likelihood Estimation
-Using **Optim** in R, we can replicate the non-linear Solver add-on from Excel. We input the team ratings **[bt.ratings]** as the parameters, the log likelihood function **[ll]** as the function to optimize, and then make the **fnscale** equal to -1. This is important to remember, as **Optim** will attempt to minimize a given function otherwise.
+Using **Optim** in R, we can replicate the non-linear Solver add-on from Excel. We input the team ratings **[bt.ratings]** as the parameters, 
+the log likelihood function **[ll]** as the function to optimize, and then make the **fnscale** equal to -1. This is important to remember, 
+as **Optim** will attempt to minimize a given function otherwise.
 
 
 ```{r warning=FALSE, message=FALSE}
@@ -106,7 +117,8 @@ plot.ratings %>%
 
 
 ### 7. Forecasting Future Games
-To forecast a future game we can create a function that combines our freshly derived team strength ratings with the model structure we used earlier. We'll code the function so that teams are entered as **["home team", "away team"]**.
+To forecast a future game we can create a function that combines our freshly derived team strength ratings with the model structure we used 
+earlier. We'll code the function so that teams are entered as **["home team", "away team"]**.
 ```{r warning=FALSE, message=FALSE}
 xbt.forecast <- function(home, away){
   1/(1+exp(-(bt.optim.ratings['hia'] + bt.optim.ratings[home] - bt.optim.ratings[away])))
@@ -121,7 +133,8 @@ names(xbt) <- NULL #Remove names from the returned probability
 round(xbt,4)#Round output probability to 4 decimal points
 ```
 **Sanity Check for Home Ice Advantage**  
-As a quick sanity check, we can also forecast the same team playing itself to determine if home ice advantage appears reasonable. Typical home ice advantage is ~3-4%. Let's try that now with Tampa Bay:
+As a quick sanity check, we can also forecast the same team playing itself to determine if home ice advantage appears reasonable. Typical 
+home ice advantage is ~3-4%. Let's try that now with Tampa Bay:
 ```{r warning=FALSE, message=FALSE}
 xbt <- xbt.forecast("Tampa Bay Lightning", "Tampa Bay Lightning")
 names(xbt) <- NULL #Remove names from the returned probability
