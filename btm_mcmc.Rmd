@@ -16,7 +16,8 @@ but with a Bayesian twist - approximating team strength using markov chain monte
 
 If take a you look at the estimates of team strength produced by the MLE version of the model, you'll notice that they are single point estimates - 
 meaning we don't have any indication of the uncertainty (or distribution) surrounding the individual team ratings. It's true that we could probably use 
-a bootstrap method to estimate the parameter uncertainty, but ultimately we'd probably prefer a Bayesian [credible interval](https://en.wikipedia.org/wiki/Credible_interval) rather than a Frequentist [confidence interval](https://en.wikipedia.org/wiki/Confidence_interval) here. Let's pop the hood and take a look at how it works:
+a bootstrap method to estimate the parameter uncertainty, but ultimately we'd probably prefer a Bayesian 
+[credible interval](https://en.wikipedia.org/wiki/Credible_interval) rather than a Frequentist [confidence interval](https://en.wikipedia.org/wiki/Confidence_interval) here. Let's pop the hood and take a look at how it works:
 
 ### 1. Load The Raw Data
 To make a fair comparison, we'll load the same hockey data from the 2018-2019 NHL season that we used before:
