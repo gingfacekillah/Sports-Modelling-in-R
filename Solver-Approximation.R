@@ -1,4 +1,4 @@
-# Solver Approximation for PlusEV | Andrew Mack | @gingfacekillah
+# Solver Approximation in R | Andrew Mack | @gingfacekillah
 # Load Libraries
 library(tidyverse)
 library(dplyr)
