@@ -82,3 +82,16 @@ plot(GA)
 # Print Time Elapsed - Should be about ~8 minutes
 end_time <- Sys.time()
 end_time - start_time
+
+# This is L-BFGS-B with Box Constraints, but without the Genetic Algorithm. Faster, but liable to stop at a local solution.
+BFGSB <- optim(prior.params, post.ll,
+                  method = "L-BFGS-B", # BFGS Algorithm that allows constraints (upper and lower bounds)
+                  lower = c(-Inf, -Inf, 1, -Inf, 0.01),# Constraints: P.Min.Salary >=1, P.Ballast >=0.01, 
+                  upper = c(Inf,Inf,Inf,Inf,Inf),
+                  control = list(fnscale=-1, # fnscale =-1 specifies maximization of function
+                                 maxit = 1000, # Number of iterations
+                                 REPORT = 1, # Show every iteration
+                                 trace = 1)) # 1= Verbose - print the optimization process
+# Solver Summary: Optimized Parameters
+BFGSB
+
