@@ -1,0 +1,15 @@
+
+synthpuckline <- function(ml_odds, pl_odds, amount_risked){
+  ml <- amount_risked*(1/ml_odds)
+  pl <- amount_risked-ml
+  to_winml <- (ml_odds-1)*ml
+  to_winpl <- (pl_odds-1)*pl
+  weight_ml <- ml/amount_risked
+  weight_pl <- pl/amount_risked
+  synth_price <-((ml_odds*weight_ml)+(pl_odds*weight_pl))
+    
+    
+  return(list("Moneyline"=ml,"Puckline"=pl, "Synthetic Price" = synth_price))
+}
+
+synthpuckline(1.45, 2.45, 1000)
