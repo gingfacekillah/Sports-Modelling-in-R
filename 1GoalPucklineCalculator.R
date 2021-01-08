@@ -1,5 +1,5 @@
 # Synthetic -1 Puckline Calculator | Andrew Mack | @gingfacekillah
-# Weights a moneyline and puckline bet to create a push if team wins by exactly one goal.
+# Weights a moneyline and -1.5 puckline (or runline) bet to create a push if team wins by exactly one goal.
 
 synthpuckline <- function(ml_odds, pl_odds, amount_risked){
   ml <- amount_risked*(1/ml_odds)
