@@ -15,4 +15,4 @@ synthpuckline <- function(ml_odds, pl_odds, amount_risked){
   return(list("Moneyline"=round(ml,2),"Puckline"=round(pl,2), "Synthetic Price" = round(synth_price,3)))
 }
 
-synthpuckline(1.45, 2.45, 1000)
+synthpuckline(1.45, 2.45, 1000) # (ML Odds, PL Odds, Total Amount Risked)
