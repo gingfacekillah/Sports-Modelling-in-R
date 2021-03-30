@@ -2,7 +2,7 @@
 
 log5 <-function(home, away) {
   
-  prob <-(home-home*away)/(home+away-2*home*away)
+  prob <-(home - home * away)/(home + away - 2 * home * away)
   prob
 }
 
