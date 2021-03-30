@@ -1,0 +1,9 @@
+# Simple Win Probability Matchup Function: Log 5 by Bill James
+
+log5 <-function(home, away) {
+  
+  prob<-(home-home*away)/(home+away-2*home*away)
+  prob
+}
+
+log5(0.5,0.57)
